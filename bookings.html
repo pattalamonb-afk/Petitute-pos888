@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>สร้างการจอง / บริการ</h3>
+  <form method="post">
+    <div class="mb-2">
+      <label>เลือกลูกค้า</label>
+      <select class="form-select" name="customer_id">
+        {% for c in customers %}
+          <option value="{{c.id}}">{{c.name}} - {{c.phone}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-2">
+      <label>บริการ</label>
+      <select class="form-select" name="service_type" id="service_type" onchange="toggleFields()">
+        <option value="overnight">ฝากค้างคืน</option>
+        <option value="hourly">ฝากรายชั่วโมง</option>
+        <option value="groom">อาบน้ำ/กรูมมิ่ง</option>
+      </select>
+    </div>
+
+    <div id="size_field" class="mb-2">
+      <label>ขนาด</label>
+      <select class="form-select" name="size">
+        <option value="S">S</option>
+        <option value="M" selected>M</option>
+        <option value="L">L</option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <label>เริ่ม (วัน-เวลา)</label>
+      <input class="form-control" type="datetime-local" name="start" required>
+    </div>
+
+    <div id="nights_field" class="mb-2">
+      <label>จำนวนคืน</label>
+      <input class="form-control" type="number" name="nights" value="1" min="1">
+    </div>
+
+    <div id="hours_field" class="mb-2" style="display:none;">
+      <label>จำนวนชั่วโมง</label>
+      <input class="form-control" type="number" name="hours" value="1" min="1">
+    </div>
+
+    <button class="btn btn-primary">จอง</button>
+  </form>
+
+  <script>
+    function toggleFields(){
+      let s = document.getElementById('service_type').value;
+      document.getElementById('nights_field').style.display = s === 'overnight' ? 'block' : 'none';
+      document.getElementById('hours_field').style.display = s === 'hourly' ? 'block' : 'none';
+      document.getElementById('size_field').style.display = (s === 'hourly') ? 'none' : 'block';
+    }
+    toggleFields();
+  </script>
+{% endblock %}

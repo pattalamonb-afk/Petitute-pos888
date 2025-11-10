@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>รายการล่าสุด</h3>
+  <table class="table">
+    <thead><tr><th>ID</th><th>ลูกค้า</th><th>บริการ</th><th>ราคา</th><th>สถานะ</th><th></th></tr></thead>
+    <tbody>
+    {% for b in bookings %}
+      <tr>
+        <td>{{b.id}}</td>
+        <td>{{b.customer.name}}</td>
+        <td>{{'ฝากค้างคืน' if b.service_type=='overnight' else ('ฝากรายชั่วโมง' if b.service_type=='hourly' else 'อาบน้ำ/กรูมมิ่ง')}}
+          {% if b.size %} ({{b.size}}){% endif %}</td>
+        <td>{{"%.2f"|format(b.price)}}</td>
+        <td>{{ "ชำระแล้ว" if b.paid else "ยังไม่ชำระ" }}</td>
+        <td>
+          {% if not b.paid %}
+            <a class="btn btn-sm btn-success" href="{{ url_for('checkout', booking_id=b.id) }}">ชำระ</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6">ยังไม่มีการจอง</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

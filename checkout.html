@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>ชำระเงิน Booking #{{booking.id}}</h3>
+  <p>ลูกค้า: {{customer.name}}</p>
+  <p>บริการ: {{'ฝากค้างคืน' if booking.service_type=='overnight' else ('ฝากรายชั่วโมง' if booking.service_type=='hourly' else 'อาบน้ำ/กรูมมิ่ง')}}
+  {% if booking.size %} ({{booking.size}}){% endif %}</p>
+  <p>ราคา: {{"%.2f"|format(booking.price)}}</p>
+  <form method="post">
+    <button class="btn btn-success">ยืนยันชำระเงิน</button>
+    <a class="btn btn-secondary" href="{{ url_for('index') }}">ยกเลิก</a>
+  </form>
+{% endblock %}

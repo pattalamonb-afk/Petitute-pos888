@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>ลูกค้า</h3>
+  <form method="post" action="{{ url_for('customer_new') }}" class="row g-2 mb-3">
+    <div class="col-md-4"><input name="name" class="form-control" placeholder="ชื่อ-สกุล" required></div>
+    <div class="col-md-3"><input name="phone" class="form-control" placeholder="โทรศัพท์"></div>
+    <div class="col-md-3"><input name="email" class="form-control" placeholder="อีเมล"></div>
+    <div class="col-md-1 form-check">
+      <input class="form-check-input" name="member" type="checkbox" id="memberCheck">
+      <label class="form-check-label" for="memberCheck">สมาชิก</label>
+    </div>
+    <div class="col-md-1"><button class="btn btn-primary">เพิ่ม</button></div>
+  </form>
+
+  <table class="table">
+    <thead><tr><th>ชื่อ</th><th>โทร</th><th>อีเมล</th><th>สมาชิก</th><th>แต้ม</th></tr></thead>
+    <tbody>
+      {% for c in customers %}
+        <tr><td>{{c.name}}</td><td>{{c.phone}}</td><td>{{c.email}}</td><td>{{'ใช่' if c.member else 'ไม่'}}</td><td>{{c.points}}</td></tr>
+      {% else %}
+        <tr><td colspan="5">ยังไม่มีลูกค้า</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
